@@ -1,0 +1,295 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FOOD BY MOOD | Week 1</title>
+    
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+
+    <style>
+        /* --- 1. THE MOOD PALETTE --- */
+        :root {
+            --primary: #FF6B35;   /* Energetic Orange */
+            --primary-hover: #e0541e;
+            --bg-color: #FFF8F0;  /* Cream */
+            --text-dark: #2D2D2D;
+            --text-gray: #6B6B6B;
+            --card-bg: #FFFFFF;
+            --shadow: 0 10px 40px rgba(0,0,0,0.08);
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            
+            /* --- CHANGED SECTION STARTS HERE --- */
+            /* Replaced solid color with a relatable, vibrant, but muted image background */
+            background: linear-gradient(rgba(255, 248, 240, 0.85), rgba(255, 248, 240, 0.85)), url('https://images.unsplash.com/photo-1546069901-ba9599a7e63c?q=80&w=1780&auto=format&fit=crop');
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed; /* Keeps background still while scrolling */
+            /* --- CHANGED SECTION ENDS HERE --- */
+
+            color: var(--text-dark);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+
+        /* --- 2. HEADER SECTION --- */
+        header {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .logo-icon {
+            font-size: 3.5rem;
+            margin-bottom: 5px;
+            display: inline-block;
+            animation: bounce 2s infinite;
+        }
+
+        h1 {
+            font-family: 'Playfair Display', serif;
+            font-size: 3rem;
+            letter-spacing: -1px;
+            margin-bottom: 8px;
+            text-transform: uppercase; /* Makes it look like a Brand */
+        }
+
+        h1 span { color: var(--primary); }
+
+        p.subtitle {
+            font-size: 1.1rem;
+            color: var(--text-gray);
+            font-weight: 500;
+        }
+
+        /* --- 3. THE INTERACTION CARD --- */
+        .card {
+            background: var(--card-bg);
+            width: 100%;
+            max-width: 500px;
+            padding: 40px;
+            border-radius: 30px; /* Softer, friendlier corners */
+            box-shadow: var(--shadow);
+            text-align: center;
+        }
+
+        /* Question Text */
+        .question {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.4rem;
+            margin-bottom: 20px;
+            color: var(--text-dark);
+        }
+
+        /* MOOD GRID (The core feature) */
+        .mood-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr; /* 2 columns */
+            gap: 15px;
+            margin-bottom: 30px;
+        }
+
+        .mood-btn {
+            padding: 15px;
+            border: 2px solid #F0F0F0;
+            background: white;
+            border-radius: 16px;
+            cursor: pointer;
+            font-size: 1rem;
+            font-weight: 600;
+            color: var(--text-gray);
+            transition: all 0.2s ease;
+        }
+
+        .mood-btn:hover {
+            border-color: var(--primary);
+            color: var(--primary);
+            transform: translateY(-2px);
+        }
+
+        /* Active State */
+        .mood-btn.active {
+            background-color: var(--primary);
+            border-color: var(--primary);
+            color: white;
+            box-shadow: 0 4px 15px rgba(255, 107, 53, 0.3);
+        }
+
+        /* INGREDIENT INPUT (Subtle) */
+        .extra-option {
+            margin-bottom: 30px;
+            text-align: left;
+        }
+
+        .extra-option label {
+            font-size: 0.9rem;
+            font-weight: 600;
+            color: var(--text-gray);
+            margin-bottom: 8px;
+            display: block;
+        }
+        
+        input[type="text"] {
+            width: 100%;
+            padding: 14px;
+            border-radius: 12px;
+            border: 2px solid #F0F0F0;
+            font-family: 'Inter', sans-serif;
+            font-size: 1rem;
+            outline: none;
+            transition: 0.2s;
+        }
+
+        input[type="text"]:focus {
+            border-color: var(--primary);
+        }
+
+        /* MAIN BUTTON */
+        .btn-suggest {
+            width: 100%;
+            padding: 18px;
+            background-color: var(--text-dark);
+            color: white;
+            border: none;
+            border-radius: 16px;
+            font-size: 1.1rem;
+            font-weight: 700;
+            cursor: pointer;
+            transition: transform 0.2s, background 0.2s;
+        }
+
+        .btn-suggest:hover {
+            background-color: var(--primary);
+            transform: scale(1.02);
+        }
+
+        /* RESULT AREA */
+        .result-box {
+            margin-top: 30px;
+            padding-top: 25px;
+            border-top: 2px dashed #eee;
+            display: none; /* Hidden initially */
+        }
+
+        .result-emoji { font-size: 2rem; margin-bottom: 10px; display: block; }
+
+        .result-title {
+            font-family: 'Playfair Display', serif;
+            color: var(--primary);
+            font-size: 1.8rem;
+            margin-bottom: 8px;
+            line-height: 1.2;
+        }
+
+        .result-desc {
+            color: var(--text-gray);
+            font-size: 1rem;
+        }
+
+        /* Tiny Animation */
+        @keyframes bounce {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-10px); }
+        }
+
+    </style>
+</head>
+<body>
+
+    <header>
+        <div class="logo-icon">😋</div>
+        <h1>Food <span>by</span> Mood</h1>
+        <p class="subtitle">Mood-based food suggestions. No recipes, just vibes.</p>
+    </header>
+
+    <div class="card">
+        
+        <p class="question">1. What's your current mood?</p>
+        <div class="mood-grid">
+            <div class="mood-btn" onclick="selectMood(this, 'Spicy')">🔥 Spicy / Bold</div>
+            <div class="mood-btn" onclick="selectMood(this, 'Sweet')">🍩 Sweet / Treat</div>
+            <div class="mood-btn" onclick="selectMood(this, 'Comfort')">🧀 Comfort / Cheesy</div>
+            <div class="mood-btn" onclick="selectMood(this, 'Fresh')">🥗 Fresh / Light</div>
+        </div>
+        <input type="hidden" id="selectedMood">
+
+        <div class="extra-option">
+            <label>2. Craving a specific item? (Optional)</label>
+            <input type="text" id="ingredient" placeholder="e.g. Chicken, Paneer, Potato...">
+        </div>
+
+        <button class="btn-suggest" onclick="suggestFood()">Tell Me What To Eat</button>
+
+        <div class="result-box" id="resultArea">
+            <span class="result-emoji">✨</span>
+            <h3 class="result-title" id="foodName">Analyzing Mood...</h3>
+            <p class="result-desc" id="foodReason">Give us a second.</p>
+        </div>
+
+    </div>
+
+    <p style="margin-top: 30px; color: #aaa; font-size: 0.8rem;">Week 1 Project Prototype</p>
+
+    <script>
+        function selectMood(el, mood) {
+            // Clear previous selection
+            document.querySelectorAll('.mood-btn').forEach(btn => btn.classList.remove('active'));
+            // Highlight new selection
+            el.classList.add('active');
+            // Save value
+            document.getElementById('selectedMood').value = mood;
+        }
+
+        function suggestFood() {
+            const mood = document.getElementById('selectedMood').value;
+            const ingredient = document.getElementById('ingredient').value;
+            const resultArea = document.getElementById('resultArea');
+            const foodName = document.getElementById('foodName');
+            const foodReason = document.getElementById('foodReason');
+
+            if(!mood) {
+                alert("Please select a mood first!");
+                return;
+            }
+
+            // Show area with loading text
+            resultArea.style.display = "block";
+            foodName.innerText = "Thinking...";
+            foodReason.innerText = "";
+
+            setTimeout(() => {
+                // Mock Database Logic
+                let suggestion = "";
+                let reason = "";
+
+                if (mood === 'Spicy') {
+                    suggestion = ingredient ? `Spicy ${ingredient} Vindaloo` : "Schezwan Fried Rice";
+                    reason = "Perfect for kicking up the heat.";
+                } else if (mood === 'Sweet') {
+                    suggestion = ingredient ? `Caramelized ${ingredient} Tart` : "Choco-Lava Cake";
+                    reason = "You deserve a sweet treat today.";
+                } else if (mood === 'Comfort') {
+                    suggestion = ingredient ? `Creamy ${ingredient} Pasta` : "Loaded Cheese Pizza";
+                    reason = "Warm, cheesy, and exactly what you need.";
+                } else {
+                    suggestion = ingredient ? `Grilled ${ingredient} Salad` : "Mediterranean Wrap";
+                    reason = "Light on the stomach, heavy on flavor.";
+                }
+
+                // Display Result
+                foodName.innerText = suggestion;
+                foodReason.innerText = reason;
+                
+            }, 600); // Short delay for effect
+        }
+    </script>
+</body>
+</html>
